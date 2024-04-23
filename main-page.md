@@ -5,14 +5,23 @@ permalink: /main
 <html>
 <style>
 body {
-    background-image: url('{{site.baseurl}}/images/logincar.gif'); /* Add your GIF link here */
-    background-size: cover; /* Cover the entire page */
-    background-position: center; /* Center the background image */
-    background-repeat: no-repeat; /* Do not repeat the image */
+    background-image: url('{{site.baseurl}}/images/logincar.gif');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #FFFFFF;
 }
-
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 30vh;
+    margin-bottom: 0;
+    padding-bottom: 10px;
+}
 .fancy-button {
-    background-color: #ff00ff; /* Neon Pink */
+    background-color: #ff00ff;
     border: none;
     color: white;
     padding: 20px;
@@ -26,33 +35,48 @@ body {
     box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
     transition: all 0.3s ease-in-out;
 }
-
 .fancy-button:hover {
-    background-color: #ff77ff; /* Lighter Neon Pink */
+    background-color: #ff77ff;
     box-shadow: 0 0 25px rgba(255, 0, 255, 0.75);
 }
+.fancy-background {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+    margin: 0 auto 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    width: 80%;
+}
+.small-button {
+    background-color: #8800ff;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(136, 0, 255, 0.5);
+    transition: all 0.3s ease-in-out;
+    margin: 5px;
+}
+.small-button:hover {
+    background-color: #bb77ff;
+    box-shadow: 0 0 20px rgba(187, 119, 255, 0.75);
+}
 </style>
-<head>
-    <title>Synthwave Style Main Page</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
-</head>
 <body>
     <div class="main-container">
         <button class="fancy-button" onclick="location.href='{{site.baseurl}}/chat';">Chat About Cars</button>
         <button class="fancy-button" onclick="location.href='{{site.baseurl}}/mpg';">MPG Predictor</button>
+<head>
+    <title>Synthwave Style Main Page</title>
+</head>
+    <div class="fancy-background">
+        <header><b>Plans for the Integration</b></header>
+            - We integrated the video sharing platform and the login system into the shared repo
+            <br>
+            - Finally, we integrated the other CPT projects
+            <br>
+            - Then, the different machine learning systems were integrated into the repo. (Titanic, Diamond cost predictor, MPG predictor, likelihood of car crash predictor, and house price predictor)
+    </div>
+        <button class="small-button" onclick="location.href='{{site.baseurl}}/login';">Sign Out</button>
     </div>
 </body>
 </html>
-
-<header><b>Plans for the Integration</b></header>
-<br>
-<text>
-- We integrated the video sharing platform and the login system into the shared repo
-<br>
-<br>
-- Finally, we integrated the other CPT projects
-<br>
-<br>
-- Then, the different machine learning systems were integrated into the repo. (Titanic, Diamond cost predictor, MPG predictor, likelihood of car crash predictor, and house price predictor)
-<br>
-</text>

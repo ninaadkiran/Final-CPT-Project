@@ -1,6 +1,5 @@
 ---
-layout: default
-title: Student Blog
+permalink: /login
 ---
 
   <style>
