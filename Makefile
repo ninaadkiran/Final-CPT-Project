@@ -1,6 +1,6 @@
 # Configuration, override port with usage: make PORT=4300
 PORT ?= 4200
-REPO_NAME ?= tri3frontend
+REPO_NAME ?= final-cpt-project
 LOG_FILE = /tmp/jekyll$(PORT).log
 # Exceptions will stop make
 SHELL = /bin/bash

@@ -2,7 +2,7 @@ title: Tri 3 Team Repository
 description: "Eshaan Kumar, Anagha Ashtewale, Patrick Hastings, Ninaad Kiran"
 owner_name: Eshaan Kumar
 github_username: eshaank1
-baseurl: "/tri3frontend"
+baseurl: "/final-cpt-project"
 remote_theme: pages-themes/midnight@v0.2.0
 # remote_theme: pages-themes/dinky@v0.2.0
 # remote_theme: pages-themes/minimal@v0.2.0

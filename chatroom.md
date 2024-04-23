@@ -166,32 +166,24 @@ function editMessage(messageId) {
     messageInput.value = messageText; // Set the message text without the timestamp
     messageInput.focus(); // Focus the input field
 }
-function displayChat() {
-    fetch(backendUrl + '/api/chat/read', {
-        method: "GET",
-    })
-    .then((response) => {
-        if (response.ok) {
-            return response.json(); // Parse response as JSON
-        } else {
-            throw new Error('Failed to retrieve chat messages'); // Handle error if necessary
+        function displayChat() {
+            fetch(`${backendUrl}/api/chat/read`, {
+                method: "GET",
+            })
+            .then(response => response.json())
+            .then(data => {
+                chatBox.innerHTML = "";
+                data.forEach(item => {
+                    const messageElement = document.createElement("div");
+                    const formattedTimestamp = new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    messageElement.textContent = `[${formattedTimestamp}] User ${item.uid}: ${item.message}`;
+                    messageElement.id = `message-${item.id}`;
+                    messageElement.onclick = () => editMessage(item.id);
+                    chatBox.appendChild(messageElement);
+                });
+            })
+            .catch(error => console.error("Failed to retrieve chat messages:", error));
         }
-    })
-    .then((data) => {
-        chatBox.innerHTML = ""; // Clear current messages
-        data.forEach((item) => {
-            const messageElement = document.createElement("div");
-            const formattedTimestamp = new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            messageElement.textContent = `[${formattedTimestamp}] ${item.message}`;
-            messageElement.id = `message-${item.id}`;
-            messageElement.onclick = () => editMessage(item.id);
-            chatBox.appendChild(messageElement);
-        });
-    })
-    .catch((error) => {
-        console.error("Failed to retrieve chat messages:", error);
-    });
-}
         function handleKeyPress(event) {
             if (event.key === "Enter") {
                 event.preventDefault();

@@ -1,5 +1,5 @@
 ---
-permalink: /tri3frontend/403_Error
+permalink: /final-cpt-project/403_Error
 ---
 
 <p class="title"> 403 Error! </p>
