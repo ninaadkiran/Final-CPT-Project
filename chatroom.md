@@ -93,6 +93,42 @@ permalink: /chat
         const messageInput = document.getElementById("message");
         const backendUrl = "http://127.0.0.1:8088"; // Replace with your backend URL
         let currentMessageId = null; // Track the current message being edited
+        function toggleMode() {
+            const body = document.body;
+            const chatroom = document.querySelector('.chatroom');
+            const chatroomHeader = document.querySelector('.chatroom-header');
+            const chatroomMessages = document.querySelector('.chatroom-messages');
+            const input = document.querySelector('input[type="text"]');
+            const button1 = document.getElementById('send');
+            const toggleButton = document.getElementById('toggleModeButton');
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                chatroom.style.backgroundColor = '#FFC8C5';
+                chatroomHeader.style.backgroundColor = '#C13A7F';
+                chatroomHeader.style.color = '#000';
+                chatroomMessages.style.backgroundColor = '#FFC8C5';
+                input.style.backgroundColor = '#C13A7F';
+                input.style.color = '#000';
+                button1.style.backgroundColor = '#C13A7F';
+                button1.style.color = '#FFC8C5';
+                toggleButton.style.backgroundColor = '#C13A7F';
+                toggleButton.style.color = '#FFC8C5';
+                toggleButton.textContent = 'Dark Mode';
+            } else {
+                body.classList.add('dark-mode');
+                chatroom.style.backgroundColor = '#232122';
+                chatroomHeader.style.backgroundColor = '#C13A7F';
+                chatroomHeader.style.color = '#232122';
+                chatroomMessages.style.backgroundColor = '#232122';
+                input.style.backgroundColor = '#C13A7F';
+                input.style.color = '#232122';
+                button1.style.backgroundColor = '#C13A7F';
+                button1.style.color = '#232122';
+                toggleButton.style.backgroundColor = '#C13A7F';
+                toggleButton.style.color = '#232122';
+                toggleButton.textContent = 'Light Mode';
+            }
+        }
 function sendMessage() {
     const message = messageInput.value.trim();
     if (message !== '') {

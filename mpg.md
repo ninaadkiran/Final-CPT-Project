@@ -3,83 +3,88 @@ permalink: /mpg
 ---
 
 <html lang="en">
-
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MPG Prediction</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #F4F4F4;
+            font-family: 'Arial', sans-serif;
+            background-image: url('{{site.baseurl}}/images/logincar.gif'); /* GIF background */
+            background-size: cover; /* Cover the entire page */
+            background-position: center; /* Center the background image */
+            background-repeat: no-repeat; /* Do not repeat the image */
+            color: #FFFFFF; /* Set text color to white for better readability */
             margin: 0;
             padding: 20px;
-            color: #333;
         }
         h1 {
-            color: #0056B3;
+            color: #FF0099; /* Vibrant Pink */
+            text-shadow: 2px 2px 4px #000000;
         }
         form {
-            background: #fff;
+            background: rgba(0, 0, 0, 0.8); /* Dark semi-transparent background */
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border: 1px solid #FF0099; /* Neon pink border */
+            box-shadow: 0 0 20px rgba(255, 0, 153, 0.75);
         }
         label {
             margin-top: 10px;
             display: inline-block;
-            color: #333;
+            color: #CCCCCC; /* Light grey for readability */
+            font-size: 16px;
         }
         input, select {
             margin-bottom: 10px;
-            border: 1px solid #ddd;
+            border: 1px solid #DDDDDD;
             border-radius: 4px;
             padding: 8px;
             width: calc(100% - 22px);
+            background: #333333; /* Dark backgrounds for inputs */
+            color: #FFFFFF; /* White text for inputs */
+            box-shadow: inset 0 0 5px rgba(255, 0, 153, 0.5);
         }
         button {
-            background-color: #4CAF50;
+            background-color: #FF0099; /* Neon pink */
             color: white;
             padding: 10px 20px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 0, 153, 0.75);
+            transition: background 0.3s ease-in-out;
         }
         button:hover {
-            background-color: #45A049;
+            background-color: #FF66B2; /* Lighter neon pink */
         }
-        #result {
-            margin-top: 20px;
+        #result, .legend {
+            background: rgba(0, 0, 0, 0.85); /* Dark background */
+            color: #CCCCCC; /* Light grey text */
             padding: 20px;
-            background-color: #E2E2E2;
-            border-radius: 4px;
-            color: #333;
-        }
-        .legend {
-            margin-top: 20px;
-            background: #fff;
-            padding: 10px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            color: #333;
+            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(255, 0, 153, 0.75);
         }
         .legend h2 {
-            color: #0056B3;
+            color: #FF0099; /* Neon pink */
         }
         .legend p {
             font-size: 14px;
             line-height: 1.6;
         }
-            .info-icon {
-        margin-left: 5px;
-        cursor: pointer;
-        font-size: 18px;
-    }
-    .info-icon:hover {
-        color: blue;
-    }
+        .info-icon {
+            margin-left: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            color: #FF0099; /* Neon pink */
+        }
+        .info-icon:hover {
+            color: #FF66B2; /* Lighter pink */
+        }
     </style>
-
-
+</head>
+<body>
     <h1>MPG Predictor</h1>
     <form onsubmit="event.preventDefault(); predictMPG();">
         <label for="cylinders">Cylinders:</label>
@@ -112,7 +117,6 @@ permalink: /mpg
             <option value="2">Europe</option>
             <option value="3">Japan</option>
         </select><br>
-        
         <button type="submit">Predict MPG</button>
     </form>
     <div id="result"></div>
@@ -127,7 +131,7 @@ permalink: /mpg
         <p><strong>Origin:</strong> The country where the vehicle was manufactured. This can influence the design and fuel efficiency.</p>
     </div>
     <script>
-    async function predictMPG() {
+     async function predictMPG() {
         const data = {
             cylinders: parseInt(document.getElementById('cylinders').value),
             displacement: parseFloat(document.getElementById('displacement').value),
@@ -165,3 +169,5 @@ if (response.ok) {
         }
     }
     </script>
+</body>
+</html>
