@@ -76,7 +76,21 @@ body {
             <br>
             - Then, the different machine learning systems were integrated into the repo. (Titanic, Diamond cost predictor, MPG predictor, likelihood of car crash predictor, and house price predictor)
     </div>
-        <button class="small-button" onclick="location.href='{{site.baseurl}}/login';">Sign Out</button>
+        <button class="small-button" onClick="signOut()">Sign Out</button>
     </div>
+    <script>
+function signOut() {
+    // Get all cookies
+    const cookies = document.cookie.split(';');
+    // Iterate over each cookie and set its expiry date to a past date
+    cookies.forEach(cookie => {
+        const cookieParts = cookie.split('=');
+        const cookieName = cookieParts[0].trim();
+        document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    });
+    // Redirect to the sign-in page or any other appropriate action
+    window.location.href = '{{site.baseurl}}/';
+}
+    </script>
 </body>
 </html>

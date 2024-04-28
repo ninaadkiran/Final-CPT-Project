@@ -131,11 +131,12 @@ permalink: /chat
         }
 function sendMessage() {
     const message = messageInput.value.trim();
-    if (message !== '') {
+    const userId = getUserId(); // Implement a function to retrieve the user's ID
+    if (message !== '' && userId !== '') {
         // Determine the endpoint and method based on whether there's a currentMessageId
         const apiEndpoint = currentMessageId ? `${backendUrl}/api/chat/edit` : `${backendUrl}/api/chat/create`;
         const methodType = currentMessageId ? "PUT" : "POST";
-        const payload = currentMessageId ? { message_id: currentMessageId, message: message } : { message: message };
+        const payload = currentMessageId ? { message_id: currentMessageId, message: message, user_id: userId } : { message: message, user_id: userId };
         fetch(apiEndpoint, {
             method: methodType,
             headers: {
@@ -163,8 +164,21 @@ function editMessage(messageId) {
     const messageTextWithTimestamp = messageDiv.textContent;
     // Assuming the timestamp format is [HH:MM] message, we remove the timestamp part
     const messageText = messageTextWithTimestamp.substring(messageTextWithTimestamp.indexOf(']') + 2);
-    messageInput.value = messageText; // Set the message text without the timestamp
+    // Assuming the message format is "User {userId}: {messageText}"
+    const messageWithoutUser = messageText.substring(messageText.indexOf(':') + 2);
+    messageInput.value = messageWithoutUser; // Set the message text without the timestamp and user info
     messageInput.focus(); // Focus the input field
+}
+function getUserId() {
+    const userCookie = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('user_id=')); 
+    if (userCookie) {
+        const cookieValue = userCookie.split('=')[1];
+        return cookieValue;
+    } else {
+        return '';
+    }
 }
         function displayChat() {
             fetch(`${backendUrl}/api/chat/read`, {

@@ -58,7 +58,7 @@ permalink: /signup
             if (response.ok) {
                 console.log("Successfully Signed Up");
                 alert("Account has been created. You will be directed to login page shortly.");
-                window.location.href = "https://eshaank1.github.io/csp2/2024/01/30/LoginPage.html"
+                window.location.href = "https://ninaadkiran.github.io/csp2/2024/01/30/LoginPage.html"
               } else {
                 console.error("Sign Up Failed");
                 // You can handle failed login attempts here
@@ -82,10 +82,6 @@ permalink: /signup
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login Page</title>
-  <link rel="stylesheet" href="styles.css"> <!-- Include the compiled CSS file -->
-
-
-
     <div class="container">
     <form action="javascript:signUp_user()">
     <p><label for="Name">First Name:</label>
@@ -103,9 +99,4 @@ permalink: /signup
     <button class="button-spacing">Submit</button>
     </form>
   </div>
-   
-
-   
-
-
 </html>

@@ -1,5 +1,4 @@
 ---
-permalink: /login
 ---
 
   <style>
@@ -145,21 +144,40 @@ fetch("http://127.0.0.1:8088/api/users", requestOptions)
             
             })
           .catch(error => console.log('error', error));
-          
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
 
-      
+    var raw = JSON.stringify({
+        "uid": uid,
+        "password": pw
+    });
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow',
+        credentials: 'include' // This needs to be included to handle cookies
+    };
+
+    fetch("http://127.0.0.1:8088/api/users/authenticate", requestOptions)
+        .then(response => response.json())  // Make sure to handle JSON response correctly
+        .then(result => {
+            console.log("User logged in successfully");
+            window.location.href = "/main";  // Ensure you're redirecting correctly
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('errorMessage').innerHTML = '<label style="color: red;">User Login Failed</label>';
+        });
+}
       //return response
-    }
 
 
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login Page</title>
-  <link rel="stylesheet" href="styles.css"> <!-- Include the compiled CSS file -->
-
-
-
   <!-- Your HTML login form -->
   <div id="errorMessage"></div>
   <form action="javascript:login_user()">
