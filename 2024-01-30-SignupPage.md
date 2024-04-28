@@ -58,7 +58,7 @@ permalink: /signup
             if (response.ok) {
                 console.log("Successfully Signed Up");
                 alert("Account has been created. You will be directed to login page shortly.");
-                window.location.href = "https://ninaadkiran.github.io/csp2/2024/01/30/LoginPage.html"
+                window.location.href = "https://eshaank1.github.io/csp2/2024/01/30/LoginPage.html"
               } else {
                 console.error("Sign Up Failed");
                 // You can handle failed login attempts here
