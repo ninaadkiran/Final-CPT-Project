@@ -1,5 +1,5 @@
 ---
-permalink: /final-cpt-project/403_Error
+permalink: /Final-CPT-Project/403_Error
 ---
 
 <p class="title"> 403 Error! </p>
