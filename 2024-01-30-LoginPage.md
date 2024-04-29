@@ -49,7 +49,7 @@ type: hacks
           redirect: 'follow'
         };
 
-      fetch("http://127.0.0.1:8088/api/users/authenticate", requestOptions)
+      fetch("http://127.0.0.1:8089/api/users/authenticate", requestOptions)
           .then(response => {
             if (response.ok) {
                 console.log("User logged in successfully");

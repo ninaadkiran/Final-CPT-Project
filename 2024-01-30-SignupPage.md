@@ -53,7 +53,7 @@ permalink: /signup
           redirect: 'follow'
         };
 
-      fetch("http://localhost:8088/api/users/", requestOptions)
+      fetch("http://localhost:8089/api/users/", requestOptions)
           .then(response => {
             if (response.ok) {
                 console.log("Successfully Signed Up");

@@ -91,7 +91,7 @@ permalink: /chat
     <script>
         const chatBox = document.getElementById("chatroom-messages");
         const messageInput = document.getElementById("message");
-        const backendUrl = "http://127.0.0.1:8088"; // Replace with your backend URL
+        const backendUrl = "http://127.0.0.1:8089"; // Replace with your backend URL
         let currentMessageId = null; // Track the current message being edited
         function toggleMode() {
             const body = document.body;
@@ -131,12 +131,11 @@ permalink: /chat
         }
 function sendMessage() {
     const message = messageInput.value.trim();
-    const userId = getUserId(); // Implement a function to retrieve the user's ID
-    if (message !== '' && userId !== '') {
+    if (message !== '') {
         // Determine the endpoint and method based on whether there's a currentMessageId
         const apiEndpoint = currentMessageId ? `${backendUrl}/api/chat/edit` : `${backendUrl}/api/chat/create`;
         const methodType = currentMessageId ? "PUT" : "POST";
-        const payload = currentMessageId ? { message_id: currentMessageId, message: message, user_id: userId } : { message: message, user_id: userId };
+        const payload = currentMessageId ? { message_id: currentMessageId, message: message } : { message: message };
         fetch(apiEndpoint, {
             method: methodType,
             headers: {
@@ -161,24 +160,12 @@ function sendMessage() {
 function editMessage(messageId) {
     currentMessageId = messageId; // Set the current message ID
     const messageDiv = document.getElementById(`message-${messageId}`);
-    const messageTextWithTimestamp = messageDiv.textContent;
-    // Assuming the timestamp format is [HH:MM] message, we remove the timestamp part
-    const messageText = messageTextWithTimestamp.substring(messageTextWithTimestamp.indexOf(']') + 2);
-    // Assuming the message format is "User {userId}: {messageText}"
-    const messageWithoutUser = messageText.substring(messageText.indexOf(':') + 2);
-    messageInput.value = messageWithoutUser; // Set the message text without the timestamp and user info
+    const messageTextWithUserId = messageDiv.textContent;
+    const userIdStartIndex = messageTextWithUserId.indexOf(']') + 2; // Find the start index of the user ID
+    const userIdEndIndex = messageTextWithUserId.indexOf(':', userIdStartIndex); // Find the end index of the user ID
+    const messageText = messageTextWithUserId.substring(userIdEndIndex + 1); // Extract the message text after the user ID
+    messageInput.value = messageText.trim(); // Set the message text without the user ID (trim to remove leading/trailing spaces)
     messageInput.focus(); // Focus the input field
-}
-function getUserId() {
-    const userCookie = document.cookie
-        .split('; ')
-        .find(row => row.startsWith('user_id=')); 
-    if (userCookie) {
-        const cookieValue = userCookie.split('=')[1];
-        return cookieValue;
-    } else {
-        return '';
-    }
 }
         function displayChat() {
             fetch(`${backendUrl}/api/chat/read`, {
@@ -190,7 +177,7 @@ function getUserId() {
                 data.forEach(item => {
                     const messageElement = document.createElement("div");
                     const formattedTimestamp = new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                    messageElement.textContent = `[${formattedTimestamp}] User ${item.uid}: ${item.message}`;
+                    messageElement.textContent = `[${formattedTimestamp}] User ${item.user_id}: ${item.message}`;
                     messageElement.id = `message-${item.id}`;
                     messageElement.onclick = () => editMessage(item.id);
                     chatBox.appendChild(messageElement);

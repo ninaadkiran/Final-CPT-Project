@@ -109,7 +109,7 @@ var requestOptions = {
   redirect: 'follow'
 };
 
-fetch("http://127.0.0.1:8088/api/users", requestOptions)
+fetch("http://127.0.0.1:8089/api/users", requestOptions)
   .then(response => response.text())
   .then(result => console.log(result))
   .catch(error => console.log('error', error));
@@ -126,7 +126,7 @@ fetch("http://127.0.0.1:8088/api/users", requestOptions)
           redirect: 'follow'
         };
 
-      fetch("http://127.0.0.1:8088/api/users/authenticate", requestOptions)
+      fetch("http://127.0.0.1:8089/api/users/authenticate", requestOptions)
           .then(response => {
             if (response.ok) {
                 console.log("User logged in successfully");
@@ -160,7 +160,7 @@ fetch("http://127.0.0.1:8088/api/users", requestOptions)
         credentials: 'include' // This needs to be included to handle cookies
     };
 
-    fetch("http://127.0.0.1:8088/api/users/authenticate", requestOptions)
+    fetch("http://127.0.0.1:8089/api/users/authenticate", requestOptions)
         .then(response => response.json())  // Make sure to handle JSON response correctly
         .then(result => {
             console.log("User logged in successfully");
