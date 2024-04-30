@@ -87,10 +87,11 @@ permalink: /chat
             <button id="toggleModeButton" onclick="toggleMode()">Toggle Mode</button>
     </div>
     <script>
+        //Toggle mode created using chat GPT
         const chatBox = document.getElementById("chatroom-messages");
         const messageInput = document.getElementById("message");
-        const backendUrl = "http://127.0.0.1:8089"; // Replace with your backend URL
-        let currentMessageId = null; // Track the current message being edited
+        const backendUrl = "http://127.0.0.1:8089"; // Replaces with your backend URL
+        let currentMessageId = null; // Tracks the current message being edited
         function toggleMode() {
             const body = document.body;
             const chatroom = document.querySelector('.chatroom');
@@ -130,7 +131,7 @@ permalink: /chat
 function sendMessage() {
     const message = messageInput.value.trim();
     if (message !== '') {
-        // Determine the endpoint and method based on whether there's a currentMessageId
+        // Determining the endpoint and method based on whether there's a currentMessageId
         const apiEndpoint = currentMessageId ? `${backendUrl}/api/chat/edit` : `${backendUrl}/api/chat/create`;
         const methodType = currentMessageId ? "PUT" : "POST";
         const payload = currentMessageId ? { message_id: currentMessageId, message: message } : { message: message };
@@ -146,24 +147,24 @@ function sendMessage() {
             if (data.error) {
                 throw new Error(data.error);
             }
-            displayChat(); // Refresh chat messages
-            messageInput.value = ''; // Clear input field
-            currentMessageId = null; // Reset the current message ID
+            displayChat(); // Refreshing chat messages
+            messageInput.value = ''; // Clearing input field
+            currentMessageId = null; // Reseting the current message ID
         })
         .catch(error => {
             console.error("API error:", error);
         });
     }
 }
-function editMessage(messageId) {
-    currentMessageId = messageId; // Set the current message ID
-    const messageDiv = document.getElementById(`message-${messageId}`);
-    const messageTextWithUserId = messageDiv.textContent;
-    const userIdStartIndex = messageTextWithUserId.indexOf(']') + 2; // Find the start index of the user ID
-    const userIdEndIndex = messageTextWithUserId.indexOf(':', userIdStartIndex); // Find the end index of the user ID
-    const messageText = messageTextWithUserId.substring(userIdEndIndex + 1); // Extract the message text after the user ID
-    messageInput.value = messageText.trim(); // Set the message text without the user ID (trim to remove leading/trailing spaces)
-    messageInput.focus(); // Focus the input field
+    function editMessage(messageId) {
+        currentMessageId = messageId; // Set the current message ID
+        const messageDiv = document.getElementById(`message-${messageId}`);
+        const messageTextWithUserId = messageDiv.textContent;
+        const userIdStartIndex = messageTextWithUserId.indexOf(']') + 2; // Finding the start index of the user ID
+        const userIdEndIndex = messageTextWithUserId.indexOf(':', userIdStartIndex); // Find the end index of the user ID
+        const messageText = messageTextWithUserId.substring(userIdEndIndex + 1); // Extracting the message text after the user ID
+        messageInput.value = messageText.trim(); // Set the message text without the user ID (trim to remove leading/trailing spaces)
+        messageInput.focus(); // Focus the input field
 }
         function displayChat() {
             fetch(`${backendUrl}/api/chat/read`, {
@@ -190,5 +191,5 @@ function editMessage(messageId) {
             }
         }
         displayChat(); // Initial chat load
-        setInterval(displayChat, 5000); // Update chat every 5 seconds
+        setInterval(displayChat, 5000); // Updating the chat every 5 seconds
     </script>
