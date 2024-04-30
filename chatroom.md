@@ -81,6 +81,7 @@ permalink: /chat
         <div class="chatroom-messages" id="chatroom-messages">
             <!-- Messages will be displayed here -->
         </div>
+        <!-- User input-->
         <div class="chatroom-input">
             <input type="text" id="message" placeholder="Type your message here..." onkeypress="handleKeyPress(event)">
             <button id="send" onclick="sendMessage()">Send</button>
@@ -128,6 +129,7 @@ permalink: /chat
                 toggleButton.textContent = 'Light Mode';
             }
         }
+//Example of a procedure and visual output
 function sendMessage() {
     const message = messageInput.value.trim();
     if (message !== '') {
@@ -156,6 +158,26 @@ function sendMessage() {
         });
     }
 }
+//Call to student procedure
+    function displayChat() {
+        fetch(`${backendUrl}/api/chat/read`, {
+            method: "GET",
+        })
+        .then(response => response.json())
+        .then(data => {
+            //Data Collection
+            chatBox.innerHTML = "";
+            data.forEach(item => {
+                const messageElement = document.createElement("div");
+                const formattedTimestamp = new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                messageElement.textContent = `[${formattedTimestamp}] User ${item.user_id}: ${item.message}`;
+                messageElement.id = `message-${item.id}`;
+                messageElement.onclick = () => editMessage(item.id);
+                chatBox.appendChild(messageElement);
+            });
+        })
+        .catch(error => console.error("Failed to retrieve chat messages:", error));
+    }
     function editMessage(messageId) {
         currentMessageId = messageId; // Set the current message ID
         const messageDiv = document.getElementById(`message-${messageId}`);
@@ -166,24 +188,19 @@ function sendMessage() {
         messageInput.value = messageText.trim(); // Set the message text without the user ID (trim to remove leading/trailing spaces)
         messageInput.focus(); // Focus the input field
 }
-        function displayChat() {
-            fetch(`${backendUrl}/api/chat/read`, {
-                method: "GET",
-            })
-            .then(response => response.json())
-            .then(data => {
-                chatBox.innerHTML = "";
-                data.forEach(item => {
-                    const messageElement = document.createElement("div");
-                    const formattedTimestamp = new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                    messageElement.textContent = `[${formattedTimestamp}] User ${item.user_id}: ${item.message}`;
-                    messageElement.id = `message-${item.id}`;
-                    messageElement.onclick = () => editMessage(item.id);
-                    chatBox.appendChild(messageElement);
-                });
-            })
-            .catch(error => console.error("Failed to retrieve chat messages:", error));
+function processMessages(messages) {
+    // Sequencing: Iterate through each message in the list
+    messages.forEach(message => {
+        // Selection: Check if the message meets certain criteria
+        if (message.user_id === currentUser.id) {
+            // Action: If the message is from the current user, do something
+            console.log(`Message from current user: ${message.message}`);
+        } else {
+            // Action: If the message is from another user, do something else
+            console.log(`Message from other user: ${message.message}`);
         }
+    });
+}
         function handleKeyPress(event) {
             if (event.key === "Enter") {
                 event.preventDefault();
