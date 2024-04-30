@@ -1,7 +1,7 @@
 ---
 permalink: /chat
 ---
-<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -74,7 +74,6 @@ permalink: /chat
         }
     </style>
 </head>
-<body>
     <div class="chatroom">
         <div class="chatroom-header">
             <h1>Chatroom</h1>
@@ -86,7 +85,6 @@ permalink: /chat
             <input type="text" id="message" placeholder="Type your message here..." onkeypress="handleKeyPress(event)">
             <button id="send" onclick="sendMessage()">Send</button>
             <button id="toggleModeButton" onclick="toggleMode()">Toggle Mode</button>
-        </div>
     </div>
     <script>
         const chatBox = document.getElementById("chatroom-messages");
@@ -194,5 +192,3 @@ function editMessage(messageId) {
         displayChat(); // Initial chat load
         setInterval(displayChat, 5000); // Update chat every 5 seconds
     </script>
-</body>
-</html>
