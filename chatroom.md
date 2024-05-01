@@ -7,6 +7,7 @@ permalink: /chat
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatroom</title>
     <style>
+        /*Basic CSS Created by me, embelished by ChatGPT */
         body {
             font-family: 'Arial', sans-serif;
             background-color: #232122;
@@ -83,9 +84,9 @@ permalink: /chat
 </head>
 <div class="chatroom">
     <div class="chatroom-header">
+        <!-- The user input is typed here-->
         <h1>Chatroom</h1>
             <div class="filter-section">
-            <!-- Populate this dynamically based on available users -->
         <label for="filter-content">Filter by Content:</label>
         <br>
         <input type="text" id="filter-content" placeholder="Enter text...">
@@ -101,11 +102,13 @@ permalink: /chat
         <button id="toggleModeButton" onclick="toggleMode()">Toggle Mode</button>
 </div>
     <script>
+        //Toggle mode created using chat GPT
         const chatBox = document.getElementById("chatroom-messages");
         const messageInput = document.getElementById("message");
         const backendUrl = "http://127.0.0.1:8089";
-        let currentMessageId = null;
+        let currentMessageId = null;// This tracks the message being edited
         function toggleMode() {
+            //Created constants for different parts of the chatroom in order for the color to be changed when toggle mode function is clicked
             const body = document.body;
             const chatroom = document.querySelector('.chatroom');
             const chatroomHeader = document.querySelector('.chatroom-header');
@@ -141,9 +144,11 @@ permalink: /chat
                 toggleButton.textContent = 'Light Mode';
             }
         }
+//Example of algorithm calling to backend
 function sendMessage() {
     const message = messageInput.value.trim();
     if (message !== '') {
+        // Thi is used to determine the endpoint and method based on whether there's a currentMessageId
         const apiEndpoint = currentMessageId ? `${backendUrl}/api/chat/edit` : `${backendUrl}/api/chat/create`;
         const methodType = currentMessageId ? "PUT" : "POST";
         const payload = currentMessageId ? { message_id: currentMessageId, message: message } : { message: message };
@@ -159,15 +164,16 @@ function sendMessage() {
             if (data.error) {
                 throw new Error(data.error);
             }
-            displayChat();
-            messageInput.value = '';
-            currentMessageId = null;
+            displayChat();// Refreshing chat message
+            messageInput.value = ''; // CLearing the input feild
+            currentMessageId = null; // Reseting the current message ID
         })
         .catch(error => {
             console.error("API error:", error);
         });
     }
 }
+//Example of a procedure and how my visual output is shown
     function displayChat() {
         fetch(`${backendUrl}/api/chat/read`, {
             method: "GET",
@@ -186,14 +192,15 @@ function sendMessage() {
         })
         .catch(error => console.error("Failed to retrieve chat messages:", error));
     }
+    //A call to one of my student procedures
     function editMessage(messageId) {
         currentMessageId = messageId;
         const messageDiv = document.getElementById(`message-${messageId}`);
         const messageTextWithUserId = messageDiv.textContent;
-        const userIdStartIndex = messageTextWithUserId.indexOf(']') + 2;
-        const userIdEndIndex = messageTextWithUserId.indexOf(':', userIdStartIndex);
+        const userIdStartIndex = messageTextWithUserId.indexOf(']') + 2;// Finding the start index of the user ID in order to take it out
+        const userIdEndIndex = messageTextWithUserId.indexOf(':', userIdStartIndex); // Find the end index of the user ID
         const messageText = messageTextWithUserId.substring(userIdEndIndex + 1);
-        messageInput.value = messageText.trim();
+        messageInput.value = messageText.trim(); // Set the message text without the user ID (trim to remove leading/trailing spaces)
         messageInput.focus();
 }
 let currentFilter = "";  // This variable will store the current filter
@@ -204,6 +211,7 @@ function displayChat() {
     .then(response => response.json())
     .then(data => {
         chatBox.innerHTML = "";
+        //Here is my data collection method
         data.forEach(item => {
             const messageElement = document.createElement("div");
             const formattedTimestamp = new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -231,18 +239,10 @@ function applyFilter() {
     });
 }
 function resetFilter() {
-    currentFilter = "";  // Clear the current filter
+    currentFilter = "";  // Clearing the current filter
     const messages = document.querySelectorAll(".chatroom-messages div");
     messages.forEach(message => {
-        message.style.display = "block"; // Reset display of all messages
-    });
-    document.getElementById("filter-content").value = "";  // Clear the filter input box
-}
-function resetFilter() {
-    currentFilter = "";  // Clear the current filter
-    const messages = document.querySelectorAll(".chatroom-messages div");
-    messages.forEach(message => {
-        message.style.display = "block"; // Reset display of all messages
+        message.style.display = "block"; // Reset the display of all messages
     });
     document.getElementById("filter-content").value = "";  // Clear the filter input box
 }
