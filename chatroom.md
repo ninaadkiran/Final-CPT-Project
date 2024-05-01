@@ -224,6 +224,7 @@ function displayChat() {
     })
     .catch(error => console.error("Failed to retrieve chat messages:", error));
 }
+// Use of sequencing, selection ,and iteration
 function applyFilter() {
     const filterText = document.getElementById("filter-content").value.trim().toLowerCase();
     currentFilter = filterText;  // Update the current filter
