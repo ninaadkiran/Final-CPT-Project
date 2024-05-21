@@ -251,6 +251,17 @@ function resetFilter() {
     document.getElementById("filter-content").value = "";  // Clear the filter input box
     document.getElementById("length-filter").value = "";  // Clear the length filter input box
 }
+        function filterByExactLength() {
+    const lengthFilter = parseInt(document.getElementById("length-filter").value, 10);
+    const messages = document.querySelectorAll(".chatroom-messages div");
+    messages.forEach(message => {
+        if (message.textContent.length === lengthFilter) {
+            message.style.display = "block";
+        } else {
+            message.style.display = "none";
+        }
+    });
+}
         function handleKeyPress(event) {
             if (event.key === "Enter") {
                 event.preventDefault();
