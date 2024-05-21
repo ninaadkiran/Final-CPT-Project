@@ -239,6 +239,14 @@ function applyFilter() {
         }
     });
 }
+function resetFilter() {
+    currentFilter = "";  // Clearing the current filter
+    const messages = document.querySelectorAll(".chatroom-messages div");
+    messages.forEach(message => {
+        message.style.display = "block"; // Reset the display of all messages
+    });
+    document.getElementById("filter-content").value = "";  // Clear the filter input box
+}
         function handleKeyPress(event) {
             if (event.key === "Enter") {
                 event.preventDefault();
