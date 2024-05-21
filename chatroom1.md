@@ -92,6 +92,9 @@ permalink: /chat
         <input type="text" id="filter-content" placeholder="Enter text...">
         <button onclick="applyFilter()">Apply Filter</button>
         <button onclick="resetFilter()">Reset Filter</button>
+        <input type="number" id="length-filter" placeholder="Enter exact message length">
+        <button onclick="filterByExactLength()">Filter by Exact Length</button>
+        <button onclick="resetFilter()">Reset Filter</button>
     </div>
     </div>
     <div class="chatroom-messages" id="chatroom-messages">
@@ -246,6 +249,7 @@ function resetFilter() {
         message.style.display = "block"; // Reset the display of all messages
     });
     document.getElementById("filter-content").value = "";  // Clear the filter input box
+    document.getElementById("length-filter").value = "";  // Clear the length filter input box
 }
         function handleKeyPress(event) {
             if (event.key === "Enter") {
