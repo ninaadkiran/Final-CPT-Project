@@ -255,6 +255,7 @@ function resetFilter() {
     const lengthFilter = parseInt(document.getElementById("length-filter").value, 10);
     const messages = document.querySelectorAll(".chatroom-messages div");
     messages.forEach(message => {
+        const messageText = message.textContent.split(": ").pop();
         if (message.textContent.length === lengthFilter) {
             message.style.display = "block";
         } else {
