@@ -39,7 +39,7 @@ permalink: /chat
         }
         .chatroom-messages {
             max-height: 410px;
-            min-height: 375px;
+            min-height: 410px;
             padding: 8px;
             overflow-y: auto;
             background-color: #232122;
@@ -240,44 +240,9 @@ permalink: /chat
             event.preventDefault();
             sendMessage();
         }
-<<<<<<< HEAD
     }
 
     setInterval(displayChat, 5000);
 </script>
 </body>
 </html>
-=======
-    });
-}
-function resetFilter() {
-    currentFilter = "";  // Clearing the current filter
-    const messages = document.querySelectorAll(".chatroom-messages div");
-    messages.forEach(message => {
-        message.style.display = "block"; // Reset the display of all messages
-    });
-    document.getElementById("filter-content").value = "";  // Clear the filter input box
-    document.getElementById("length-filter").value = "";  // Clear the length filter input box
-}
-        function filterByExactLength() {
-    const lengthFilter = parseInt(document.getElementById("length-filter").value, 10);
-    const messages = document.querySelectorAll(".chatroom-messages div");
-    messages.forEach(message => {
-        const messageText = message.textContent.split(": ").pop();
-        if (message.textContent.length === lengthFilter) {
-            message.style.display = "block";
-        } else {
-            message.style.display = "none";
-        }
-    });
-}
-        function handleKeyPress(event) {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                sendMessage();
-            }
-        }
-        displayChat();
-        setInterval(displayChat, 5000);
-    </script>
->>>>>>> 4869d0bd5e3a4171b7f264ec1bb444242637411a
