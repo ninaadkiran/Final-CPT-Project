@@ -300,6 +300,6 @@ permalink: /chat
             }
         }
 
-        setInterval(displayChat, 5000);
+        setInterval(displayChat, 1000);
     </script>
 </body>
