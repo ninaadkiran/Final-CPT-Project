@@ -1,6 +1,7 @@
 ---
 permalink: /chat
 ---
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -156,6 +157,7 @@ permalink: /chat
         const backendUrl = "http://127.0.0.1:8089";
         let currentMessageId = null; // This tracks the message being edited
         let messagesData = []; // Array to hold messages data
+        let sortAlphabetically = false; // Variable to track if sorting is enabled
 
         function toggleMode() {
             // Created constants for different parts of the chatroom in order for the color to be changed when toggle mode function is clicked
@@ -233,7 +235,10 @@ permalink: /chat
                 .then(response => response.json())
                 .then(data => {
                     messagesData = data;
-                    renderMessages(data);
+                    if (sortAlphabetically) {
+                        messagesData.sort((a, b) => a.message.localeCompare(b.message));
+                    }
+                    renderMessages(messagesData);
                     applyFilter();
                 })
                 .catch(error => console.error("Failed to retrieve chat messages:", error));
@@ -262,6 +267,7 @@ permalink: /chat
             const messageText = messageTextWithUserId.substring(userIdEndIndex + 1);
             messageInput.value = messageText.trim(); // Set the message input value
         }
+
         function filterByExactLength() {
             const lengthFilter = parseInt(document.getElementById("length-filter").value, 10);
             const messages = document.querySelectorAll(".chatroom-messages div");
@@ -275,10 +281,11 @@ permalink: /chat
                 }
             });
         }
+
         // Sort messages alphabetically
         function sortByAlphabeticalOrder() {
-            const sortedMessages = [...messagesData].sort((a, b) => a.message.localeCompare(b.message));
-            renderMessages(sortedMessages);
+            sortAlphabetically = !sortAlphabetically;
+            displayChat();
         }
 
         function applyFilter() {
@@ -302,3 +309,5 @@ permalink: /chat
         setInterval(displayChat, 5000);
     </script>
 </body>
+
+</html>
