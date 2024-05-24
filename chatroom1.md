@@ -263,11 +263,10 @@ permalink: /chat
             messageInput.value = messageText.trim(); // Set the message input value
         }
         function filterByExactLength() {
-            const lengthFilter = parseInt(document.getElementById("length-filter").value, 10);
-            const messages = document.querySelectorAll(".chatroom-messages div");
-            messages.forEach(message => {
-            const messageText = message.textContent.split(": ").pop();
-            // Extract the message text part (after the last colon)
+    const lengthFilter = parseInt(document.getElementById("length-filter").value, 10);
+    const messages = document.querySelectorAll(".chatroom-messages div");
+    messages.forEach(message => {
+        // Extract the message text part (after the last colon)
         const messageText = message.textContent.split(": ").pop().trim();
         if (messageText.length === lengthFilter) {
             message.style.display = "block";
@@ -275,6 +274,7 @@ permalink: /chat
             message.style.display = "none";
         }
     });
+    }
         }
         // Sort messages alphabetically
         function sortByAlphabeticalOrder() {
