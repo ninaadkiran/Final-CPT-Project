@@ -43,7 +43,7 @@ permalink: /chat
 
         .chatroom-messages {
             max-height: 410px;
-            min-height: 410px;
+            min-height: 370px;
             padding: 8px;
             overflow-y: auto;
             background-color: #232122;
@@ -285,5 +285,3 @@ permalink: /chat
         setInterval(displayChat, 5000);
     </script>
 </body>
-
-</html>
