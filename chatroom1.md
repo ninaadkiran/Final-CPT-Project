@@ -43,7 +43,7 @@ permalink: /chat
 
         .chatroom-messages {
             max-height: 410px;
-            min-height: 370px;
+            min-height: 335px;
             padding: 8px;
             overflow-y: auto;
             background-color: #232122;
@@ -68,7 +68,8 @@ permalink: /chat
         }
 
         input[type="text"],
-        .filter-section input[type="text"] {
+        .filter-section input[type="text"],
+        .filter-section input[type="number"] {
             flex: 1;
             padding: 10px;
             border: none;
@@ -110,7 +111,8 @@ permalink: /chat
             background-color: #232122;
         }
 
-        .dark-mode input[type="text"] {
+        .dark-mode input[type="text"],
+        .dark-mode input[type="number"] {
             background-color: #C13A7F;
             color: #232122;
         }
