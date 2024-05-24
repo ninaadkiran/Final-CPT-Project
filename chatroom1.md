@@ -134,6 +134,9 @@ permalink: /chat
                 <button onclick="applyFilter()">Apply Filter</button>
                 <button onclick="resetFilter()">Reset Filter</button>
                 <button onclick="sortByAlphabeticalOrder()">Sort Alphabetically</button>
+                <input type="number" id="length-filter" placeholder="Enter exact message length">
+                <button onclick="filterByExactLength()">Filter by Exact Length</button>
+                <button onclick="resetFilter()">Reset Filter</button>
             </div>
         </div>
         <div class="chatroom-messages" id="chatroom-messages">
@@ -257,7 +260,18 @@ permalink: /chat
             const messageText = messageTextWithUserId.substring(userIdEndIndex + 1);
             messageInput.value = messageText.trim(); // Set the message input value
         }
-
+        function filterByExactLength() {
+            const lengthFilter = parseInt(document.getElementById("length-filter").value, 10);
+            const messages = document.querySelectorAll(".chatroom-messages div");
+            messages.forEach(message => {
+            const messageText = message.textContent.split(": ").pop();
+            if (message.textContent.length === lengthFilter) {
+            message.style.display = "block";
+            } else {
+            message.style.display = "none";
+                }
+            });
+        }
         // Sort messages alphabetically
         function sortByAlphabeticalOrder() {
             const sortedMessages = [...messagesData].sort((a, b) => a.message.localeCompare(b.message));
