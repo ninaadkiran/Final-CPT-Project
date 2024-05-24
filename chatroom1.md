@@ -267,12 +267,14 @@ permalink: /chat
             const messages = document.querySelectorAll(".chatroom-messages div");
             messages.forEach(message => {
             const messageText = message.textContent.split(": ").pop();
-            if (message.textContent.length === lengthFilter) {
+            // Extract the message text part (after the last colon)
+        const messageText = message.textContent.split(": ").pop().trim();
+        if (messageText.length === lengthFilter) {
             message.style.display = "block";
-            } else {
+        } else {
             message.style.display = "none";
-                }
-            });
+        }
+    });
         }
         // Sort messages alphabetically
         function sortByAlphabeticalOrder() {
