@@ -46,7 +46,7 @@ permalink: /chat
 
         .chatroom-messages {
             max-height: 410px;
-            min-height: 335px;
+            min-height: 305px;
             padding: 8px;
             overflow-y: auto;
             background-color: #232122;
