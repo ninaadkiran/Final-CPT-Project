@@ -158,7 +158,7 @@ permalink: /chat
     <script>
         const chatBox = document.getElementById("chatroom-messages");
         const messageInput = document.getElementById("message");
-        const backendUrl = "http://127.0.0.1:8059";
+        const backendUrl = "http://127.0.0.1:8089";
         let currentMessageId = null;
         let messagesData = [];
         let sortAlphabetically = false;
