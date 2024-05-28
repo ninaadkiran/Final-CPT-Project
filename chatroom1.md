@@ -154,7 +154,7 @@ permalink: /chat
         // Toggle mode created using chat GPT
         const chatBox = document.getElementById("chatroom-messages");
         const messageInput = document.getElementById("message");
-        const backendUrl = "http://127.0.0.1:8089";
+        const backendUrl = "http://127.0.0.1:8059";
         let currentMessageId = null; // This tracks the message being edited
         let messagesData = []; // Array to hold messages data
         let sortAlphabetically = false; // Variable to track if sorting is enabled
