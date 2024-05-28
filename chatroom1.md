@@ -1,6 +1,8 @@
 ---
 permalink: /chat
 ---
+
+
 <html lang="en">
 
 <head>
@@ -128,7 +130,6 @@ permalink: /chat
 <body>
     <div class="chatroom">
         <div class="chatroom-header">
-            <!-- The user input is typed here-->
             <h1>Chatroom</h1>
             <div class="filter-section">
                 <label for="filter-content">Filter by Content:</label>
@@ -140,6 +141,10 @@ permalink: /chat
                 <button onclick="filterByExactLength()">Filter by Exact Length</button>
                 <button onclick="resetFilter()">Reset Filter</button>
                 <button onclick="sortByAlphabeticalOrder()">Sort Alphabetically</button>
+                <label for="time-filter">Filter by Time:</label>
+                <input type="text" id="time-filter" placeholder="HH:MM">
+                <button onclick="filterByTime()">Filter by Time</button>
+                <button onclick="resetFilter()">Reset Filter</button>
             </div>
         </div>
         <div class="chatroom-messages" id="chatroom-messages">
@@ -151,16 +156,14 @@ permalink: /chat
         </div>
     </div>
     <script>
-        // Toggle mode created using chat GPT
         const chatBox = document.getElementById("chatroom-messages");
         const messageInput = document.getElementById("message");
         const backendUrl = "http://127.0.0.1:8059";
-        let currentMessageId = null; // This tracks the message being edited
-        let messagesData = []; // Array to hold messages data
-        let sortAlphabetically = false; // Variable to track if sorting is enabled
+        let currentMessageId = null;
+        let messagesData = [];
+        let sortAlphabetically = false;
 
         function toggleMode() {
-            // Created constants for different parts of the chatroom in order for the color to be changed when toggle mode function is clicked
             const body = document.body;
             const chatroom = document.querySelector('.chatroom');
             const chatroomHeader = document.querySelector('.chatroom-header');
@@ -197,11 +200,9 @@ permalink: /chat
             }
         }
 
-        // Example of algorithm calling to backend
         function sendMessage() {
             const message = messageInput.value.trim();
             if (message !== '') {
-                // This is used to determine the endpoint and method based on whether there's a currentMessageId
                 const apiEndpoint = currentMessageId ? `${backendUrl}/api/chat/edit` : `${backendUrl}/api/chat/create`;
                 const methodType = currentMessageId ? "PUT" : "POST";
                 const payload = currentMessageId ? { message_id: currentMessageId, message: message } : { message: message };
@@ -217,9 +218,9 @@ permalink: /chat
                         if (data.error) {
                             throw new Error(data.error);
                         }
-                        displayChat(); // Refreshing chat message
-                        messageInput.value = ''; // Clearing the input field
-                        currentMessageId = null; // Resetting the current message ID
+                        displayChat();
+                        messageInput.value = '';
+                        currentMessageId = null;
                     })
                     .catch(error => {
                         console.error("API error:", error);
@@ -227,7 +228,6 @@ permalink: /chat
             }
         }
 
-        // Example of a procedure and how my visual output is shown
         function displayChat() {
             fetch(`${backendUrl}/api/chat/read`, {
                     method: "GET",
@@ -244,7 +244,6 @@ permalink: /chat
                 .catch(error => console.error("Failed to retrieve chat messages:", error));
         }
 
-        // Render messages to the chat box
         function renderMessages(messages) {
             chatBox.innerHTML = "";
             messages.forEach(item => {
@@ -257,22 +256,20 @@ permalink: /chat
             });
         }
 
-        // A call to one of my student procedures
         function editMessage(messageId) {
             currentMessageId = messageId;
             const messageDiv = document.getElementById(`message-${messageId}`);
             const messageTextWithUserId = messageDiv.textContent;
-            const userIdStartIndex = messageTextWithUserId.indexOf(']') + 2; // Finding the start index of the user ID in order to take it out
-            const userIdEndIndex = messageTextWithUserId.indexOf(':', userIdStartIndex); // Find the end index of the user ID
+            const userIdStartIndex = messageTextWithUserId.indexOf(']') + 2;
+            const userIdEndIndex = messageTextWithUserId.indexOf(':', userIdStartIndex);
             const messageText = messageTextWithUserId.substring(userIdEndIndex + 1);
-            messageInput.value = messageText.trim(); // Set the message input value
+            messageInput.value = messageText.trim();
         }
 
         function filterByExactLength() {
             const lengthFilter = parseInt(document.getElementById("length-filter").value, 10);
             const messages = document.querySelectorAll(".chatroom-messages div");
             messages.forEach(message => {
-                // Extract the message text part (after the last colon)
                 const messageText = message.textContent.split(": ").pop().trim();
                 if (messageText.length === lengthFilter) {
                     message.style.display = "block";
@@ -282,10 +279,18 @@ permalink: /chat
             });
         }
 
-        // Sort messages alphabetically
         function sortByAlphabeticalOrder() {
             sortAlphabetically = !sortAlphabetically;
             displayChat();
+        }
+
+        function filterByTime() {
+            const timeFilter = document.getElementById("time-filter").value.trim();
+            const filteredMessages = messagesData.filter(item => {
+                const messageTime = new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+                return messageTime === timeFilter;
+            });
+            renderMessages(filteredMessages);
         }
 
         function applyFilter() {
@@ -296,6 +301,7 @@ permalink: /chat
 
         function resetFilter() {
             document.getElementById("filter-content").value = '';
+            document.getElementById("time-filter").value = '';
             renderMessages(messagesData);
         }
 
