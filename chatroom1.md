@@ -145,6 +145,8 @@ permalink: /chat
                 <input type="text" id="time-filter" placeholder="HH:MM">
                 <button onclick="filterByTime()">Filter by Time</button>
                 <button onclick="resetFilter()">Reset Filter</button>
+                <button onclick="countMessagesByLength()">Count Messages by Exact Length</button>
+                <span id="count-result"></span>
             </div>
         </div>
         <div class="chatroom-messages" id="chatroom-messages">
@@ -268,6 +270,21 @@ permalink: /chat
                 }
             });
         }
+            function countMessagesByLength(length) {
+            const messages = document.querySelectorAll(".chatroom-messages div");
+             let count = 0;
+            // Using conventional for loop to count messages by length
+            for (let i = 0; i < messages.length; i++) {
+            const messageText = messages[i].textContent.split(": ").pop().trim();
+            if (messageText.length === length) {
+            count++;
+        }
+    }
+            // Display the count result
+            const countResult = document.getElementById("count-result");
+            countResult.textContent = `Messages with length ${lengthFilter}: ${count}`;
+}
+}
 
         function editMessage(messageId) {
             currentMessageId = messageId;
