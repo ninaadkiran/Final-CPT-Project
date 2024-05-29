@@ -142,7 +142,7 @@ permalink: /chat
                 <button onclick="resetFilter()">Reset Filter</button>
                 <button onclick="sortByAlphabeticalOrder()">Sort Alphabetically</button>
                 <label for="time-filter">Filter by Time:</label>
-                <input type="text" id="time-filter" placeholder="HH:MM">
+                <input type="text" id="time-filter" placeholder="HH:MM AM or PM">
                 <button onclick="filterByTime()">Filter by Time</button>
                 <button onclick="resetFilter()">Reset Filter</button>
                 <button onclick="countMessagesByLength()">Count Messages by Exact Length</button>
