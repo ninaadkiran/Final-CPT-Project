@@ -3,7 +3,7 @@ permalink: /chat
 ---
 
 
-<!DOCTYPE html>
+
 <html lang="en">
 
 <head>
