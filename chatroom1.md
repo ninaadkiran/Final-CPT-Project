@@ -158,186 +158,183 @@ permalink: /chat
         </div>
     </div>
     <script>
-        const chatBox = document.getElementById("chatroom-messages");
-        const messageInput = document.getElementById("message");
-        const backendUrl = "http://127.0.0.1:8089";
-        let currentMessageId = null;
-        let messagesData = [];
-        let sortAlphabetically = false;
+const chatBox = document.getElementById("chatroom-messages");
+const messageInput = document.getElementById("message");
+const backendUrl = "http://127.0.0.1:8089";
+let currentMessageId = null;
+let messagesData = [];
+let sortAlphabetically = false;  // Add this line to track sort state
 
-        function toggleMode() {
-            const body = document.body;
-            const chatroom = document.querySelector('.chatroom');
-            const chatroomHeader = document.querySelector('.chatroom-header');
-            const chatroomMessages = document.querySelector('.chatroom-messages');
-            const input = document.querySelector('input[type="text"]');
-            const button1 = document.getElementById('send');
-            const toggleButton = document.getElementById('toggleModeButton');
-            if (body.classList.contains('dark-mode')) {
-                body.classList.remove('dark-mode');
-                chatroom.style.backgroundColor = '#FFC8C5';
-                chatroomHeader.style.backgroundColor = '#C13A7F';
-                chatroomHeader.style.color = '#000';
-                chatroomMessages.style.backgroundColor = '#FFC8C5';
-                input.style.backgroundColor = '#C13A7F';
-                input.style.color = '#000';
-                button1.style.backgroundColor = '#C13A7F';
-                button1.style.color = '#FFC8C5';
-                toggleButton.style.backgroundColor = '#C13A7F';
-                toggleButton.style.color = '#FFC8C5';
-                toggleButton.textContent = 'Dark Mode';
-            } else {
-                body.classList.add('dark-mode');
-                chatroom.style.backgroundColor = '#232122';
-                chatroomHeader.style.backgroundColor = '#C13A7F';
-                chatroomHeader.style.color = '#232122';
-                chatroomMessages.style.backgroundColor = '#232122';
-                input.style.backgroundColor = '#C13A7F';
-                input.style.color = '#232122';
-                button1.style.backgroundColor = '#C13A7F';
-                button1.style.color = '#232122';
-                toggleButton.style.backgroundColor = '#C13A7F';
-                toggleButton.style.color = '#232122';
-                toggleButton.textContent = 'Light Mode';
-            }
-        }
+function toggleMode() {
+    const body = document.body;
+    const chatroom = document.querySelector('.chatroom');
+    const chatroomHeader = document.querySelector('.chatroom-header');
+    const chatroomMessages = document.querySelector('.chatroom-messages');
+    const input = document.querySelector('input[type="text"]');
+    const button1 = document.getElementById('send');
+    const toggleButton = document.getElementById('toggleModeButton');
+    if (body.classList.contains('dark-mode')) {
+        body.classList.remove('dark-mode');
+        chatroom.style.backgroundColor = '#FFC8C5';
+        chatroomHeader.style.backgroundColor = '#C13A7F';
+        chatroomHeader.style.color = '#000';
+        chatroomMessages.style.backgroundColor = '#FFC8C5';
+        input.style.backgroundColor = '#C13A7F';
+        input.style.color = '#000';
+        button1.style.backgroundColor = '#C13A7F';
+        button1.style.color = '#FFC8C5';
+        toggleButton.style.backgroundColor = '#C13A7F';
+        toggleButton.style.color = '#FFC8C5';
+        toggleButton.textContent = 'Dark Mode';
+    } else {
+        body.classList.add('dark-mode');
+        chatroom.style.backgroundColor = '#232122';
+        chatroomHeader.style.backgroundColor = '#C13A7F';
+        chatroomHeader.style.color = '#232122';
+        chatroomMessages.style.backgroundColor = '#232122';
+        input.style.backgroundColor = '#C13A7F';
+        input.style.color = '#232122';
+        button1.style.backgroundColor = '#C13A7F';
+        button1.style.color = '#232122';
+        toggleButton.style.backgroundColor = '#C13A7F';
+        toggleButton.style.color = '#232122';
+        toggleButton.textContent = 'Light Mode';
+    }
+}
 
-        function sendMessage() {
-            const message = messageInput.value.trim();
-            if (message !== '') {
-                const apiEndpoint = currentMessageId ? `${backendUrl}/api/chat/edit` : `${backendUrl}/api/chat/create`;
-                const methodType = currentMessageId ? "PUT" : "POST";
-                const payload = currentMessageId ? { message_id: currentMessageId, message: message } : { message: message };
-                fetch(apiEndpoint, {
-                        method: methodType,
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify(payload),
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.error) {
-                            throw new Error(data.error);
-                        }
-                        displayChat();
-                        messageInput.value = '';
-                        currentMessageId = null;
-                    })
-                    .catch(error => {
-                        console.error("API error:", error);
-                    });
-            }
-        }
-
-        function displayChat() {
-            fetch(`${backendUrl}/api/chat/read`, {
-                    method: "GET",
-                })
-                .then(response => response.json())
-                .then(data => {
-                    messagesData = data;
-                    if (sortAlphabetically) {
-                        messagesData.sort((a, b) => a.message.localeCompare(b.message));
-                    }
-                    renderMessages(messagesData);
-                    applyFilter();
-                })
-                .catch(error => console.error("Failed to retrieve chat messages:", error));
-        }
-
-        function renderMessages(messages) {
-            chatBox.innerHTML = "";
-            messages.forEach(item => {
-                const messageElement = document.createElement("div");
-                const formattedTimestamp = new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                messageElement.textContent = `[${formattedTimestamp}] User ${item.user_id}: ${item.message}`;
-                messageElement.id = `message-${item.id}`;
-                messageElement.onclick = () => editMessage(item.id);
-                chatBox.appendChild(messageElement);
-            });
-        }
-
-            function filterByExactLength() {
-            const lengthFilter = parseInt(document.getElementById("length-filter").value, 10);
-            const messages = document.querySelectorAll(".chatroom-messages div");
-            messages.forEach(message => {
-                const messageText = message.textContent.split(": ").pop().trim();
-                if (messageText.length === lengthFilter) {
-                    message.style.display = "block";
-                } else {
-                    message.style.display = "none";
+function sendMessage() {
+    const message = messageInput.value.trim();
+    if (message !== '') {
+        const apiEndpoint = currentMessageId ? `${backendUrl}/api/chat/edit` : `${backendUrl}/api/chat/create`;
+        const methodType = currentMessageId ? "PUT" : "POST";
+        const payload = currentMessageId ? { message_id: currentMessageId, message: message } : { message: message };
+        fetch(apiEndpoint, {
+                method: methodType,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    throw new Error(data.error);
                 }
+                displayChat();
+                messageInput.value = '';
+                currentMessageId = null;
+            })
+            .catch(error => {
+                console.error("API error:", error);
             });
+    }
+}
+
+function displayChat() {
+    fetch(`${backendUrl}/api/chat/read`, {
+            method: "GET",
+        })
+        .then(response => response.json())
+        .then(data => {
+            messagesData = data;
+            applyFilter();  // Apply filter first
+            if (sortAlphabetically) {
+                sortMessagesAlphabetically();  // Apply sorting if needed
+            }
+        })
+        .catch(error => console.error("Failed to retrieve chat messages:", error));
+}
+
+function renderMessages(messages) {
+    chatBox.innerHTML = "";
+    messages.forEach(item => {
+        const messageElement = document.createElement("div");
+        const formattedTimestamp = new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        messageElement.textContent = `[${formattedTimestamp}] User ${item.user_id}: ${item.message}`;
+        messageElement.id = `message-${item.id}`;
+        messageElement.onclick = () => editMessage(item.id);
+        chatBox.appendChild(messageElement);
+    });
+}
+
+function filterByExactLength() {
+    const lengthFilter = parseInt(document.getElementById("length-filter").value, 10);
+    const messages = document.querySelectorAll(".chatroom-messages div");
+    messages.forEach(message => {
+        const messageText = message.textContent.split(": ").pop().trim();
+        if (messageText.length === lengthFilter) {
+            message.style.display = "block";
+        } else {
+            message.style.display = "none";
         }
-            function countMessagesByLength(length) {
-            const messages = document.querySelectorAll(".chatroom-messages div");
-             let count = 0;
-            // Using conventional for loop to count messages by length
-            for (let i = 0; i < messages.length; i++) {
-            const messageText = messages[i].textContent.split(": ").pop().trim();
-            if (messageText.length === length) {
+    });
+}
+
+function countMessagesByLength() {
+    const lengthFilter = parseInt(document.getElementById("length-filter").value, 10);
+    const messages = document.querySelectorAll(".chatroom-messages div");
+    let count = 0;
+    for (let i = 0; i < messages.length; i++) {
+        const messageText = messages[i].textContent.split(": ").pop().trim();
+        if (messageText.length === lengthFilter) {
             count++;
         }
     }
-            // Display the count result
-            const countResult = document.getElementById("count-result");
-            countResult.textContent = `Messages with length ${lengthFilter}: ${count}`;
+    const countResult = document.getElementById("count-result");
+    countResult.textContent = `Messages with length ${lengthFilter}: ${count}`;
 }
 
-        function editMessage(messageId) {
-            currentMessageId = messageId;
-            const messageDiv = document.getElementById(`message-${messageId}`);
-            const messageTextWithUserId = messageDiv.textContent;
-            const userIdStartIndex = messageTextWithUserId.indexOf(']') + 2;
-            const userIdEndIndex = messageTextWithUserId.indexOf(':', userIdStartIndex);
-            const messageText = messageTextWithUserId.substring(userIdEndIndex + 1);
-            messageInput.value = messageText.trim();
-        }
+function editMessage(messageId) {
+    currentMessageId = messageId;
+    const messageDiv = document.getElementById(`message-${messageId}`);
+    const messageTextWithUserId = messageDiv.textContent;
+    const userIdStartIndex = messageTextWithUserId.indexOf(']') + 2;
+    const userIdEndIndex = messageTextWithUserId.indexOf(':', userIdStartIndex);
+    const messageText = messageTextWithUserId.substring(userIdEndIndex + 1);
+    messageInput.value = messageText.trim();
+}
 
-        function filterByTime() {
-            const timeFilter = document.getElementById("time-filter").value.trim();
-            const filteredMessages = messagesData.filter(item => {
-                const messageTime = new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
-                return messageTime === timeFilter;
-            });
-            renderMessages(filteredMessages);
-        }
+function filterByTime() {
+    const timeFilter = document.getElementById("time-filter").value.trim();
+    const filteredMessages = messagesData.filter(item => {
+        const messageTime = new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+        return messageTime === timeFilter;
+    });
+    renderMessages(filteredMessages);
+}
 
-        function applyFilter() {
-            const filterText = document.getElementById("filter-content").value.toLowerCase();
-            const filteredMessages = messagesData.filter(item => item.message.toLowerCase().includes(filterText));
-            renderMessages(filteredMessages);
-        }
+function applyFilter() {
+    const filterText = document.getElementById("filter-content").value.toLowerCase();
+    const filteredMessages = messagesData.filter(item => item.message.toLowerCase().includes(filterText));
+    renderMessages(filteredMessages);
+}
 
-        function resetFilter() {
-            document.getElementById("filter-content").value = '';
-            document.getElementById("time-filter").value = '';
-            renderMessages(messagesData);
-        }
+function resetFilter() {
+    document.getElementById("filter-content").value = '';
+    document.getElementById("time-filter").value = '';
+    document.getElementById("length-filter").value = '';
+    displayChat();  // Fetches and displays all messages again
+}
 
-        function sortByAlphabeticalOrder() {
-            fetch(`${backendUrl}/api/chat/sort/alphabetical`)
-                .then(response => response.json())
-                .then(data => renderMessages(data))
-                .catch(error => console.error("Failed to sort alphabetically:", error));
-        }
+function sortByAlphabeticalOrder() {
+    sortAlphabetically = true;  // Set sort state to true
+    sortMessagesAlphabetically();
+}
 
-        function resetFilter() {
-            document.getElementById("filter-content").value = '';
-            document.getElementById("time-filter").value = '';
-            document.getElementById("length-filter").value = '';
-            displayChat();  // Fetches and displays all messages again
-        }
-        function handleKeyPress(event) {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                sendMessage();
-            }
-        }
+function sortMessagesAlphabetically() {
+    fetch(`${backendUrl}/api/chat/sort/alphabetical`)
+        .then(response => response.json())
+        .then(data => renderMessages(data))
+        .catch(error => console.error("Failed to sort alphabetically:", error));
+}
 
-        setInterval(displayChat, 5000);
+function handleKeyPress(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        sendMessage();
+    }
+}
+
+setInterval(displayChat, 5000);
     </script>
 </body>
-
-</html>
