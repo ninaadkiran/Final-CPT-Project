@@ -137,10 +137,8 @@ permalink: /chat
                 <br>
                 <input type="text" id="filter-content" placeholder="Enter text...">
                 <button onclick="applyFilter()">Apply Filter</button>
-                <button onclick="resetFilter()">Reset Filter</button>
                 <input type="number" id="length-filter" placeholder="Enter exact message length">
                 <button onclick="filterByExactLength()">Filter by Exact Length</button>
-                <button onclick="resetFilter()">Reset Filter</button>
                 <button onclick="sortByAlphabeticalOrder()">Sort Alphabetically</button>
                 <label for="time-filter">Filter by Time:</label>
                 <input type="text" id="time-filter" placeholder="HH:MM AM or PM">
