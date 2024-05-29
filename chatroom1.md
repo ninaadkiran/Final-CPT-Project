@@ -256,17 +256,7 @@ permalink: /chat
             });
         }
 
-        function editMessage(messageId) {
-            currentMessageId = messageId;
-            const messageDiv = document.getElementById(`message-${messageId}`);
-            const messageTextWithUserId = messageDiv.textContent;
-            const userIdStartIndex = messageTextWithUserId.indexOf(']') + 2;
-            const userIdEndIndex = messageTextWithUserId.indexOf(':', userIdStartIndex);
-            const messageText = messageTextWithUserId.substring(userIdEndIndex + 1);
-            messageInput.value = messageText.trim();
-        }
-
-        function filterByExactLength() {
+            function filterByExactLength() {
             const lengthFilter = parseInt(document.getElementById("length-filter").value, 10);
             const messages = document.querySelectorAll(".chatroom-messages div");
             messages.forEach(message => {
@@ -279,11 +269,15 @@ permalink: /chat
             });
         }
 
-        function sortByAlphabeticalOrder() {
-            sortAlphabetically = !sortAlphabetically;
-            displayChat();
+        function editMessage(messageId) {
+            currentMessageId = messageId;
+            const messageDiv = document.getElementById(`message-${messageId}`);
+            const messageTextWithUserId = messageDiv.textContent;
+            const userIdStartIndex = messageTextWithUserId.indexOf(']') + 2;
+            const userIdEndIndex = messageTextWithUserId.indexOf(':', userIdStartIndex);
+            const messageText = messageTextWithUserId.substring(userIdEndIndex + 1);
+            messageInput.value = messageText.trim();
         }
-
         function filterByTime() {
             const timeFilter = document.getElementById("time-filter").value.trim();
             const filteredMessages = messagesData.filter(item => {
@@ -305,6 +299,19 @@ permalink: /chat
             renderMessages(messagesData);
         }
 
+        function sortByAlphabeticalOrder() {
+            fetch(`${backendUrl}/api/chat/sort/alphabetical`)
+                .then(response => response.json())
+                .then(data => renderMessages(data))
+                .catch(error => console.error("Failed to sort alphabetically:", error));
+        }
+
+        function resetFilter() {
+            document.getElementById("filter-content").value = '';
+            document.getElementById("time-filter").value = '';
+            document.getElementById("length-filter").value = '';
+            displayChat();  // Fetches and displays all messages again
+        }
         function handleKeyPress(event) {
             if (event.key === "Enter") {
                 event.preventDefault();
