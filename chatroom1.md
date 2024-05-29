@@ -284,7 +284,6 @@ permalink: /chat
             const countResult = document.getElementById("count-result");
             countResult.textContent = `Messages with length ${lengthFilter}: ${count}`;
 }
-}
 
         function editMessage(messageId) {
             currentMessageId = messageId;
