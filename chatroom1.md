@@ -278,6 +278,7 @@ permalink: /chat
             const messageText = messageTextWithUserId.substring(userIdEndIndex + 1);
             messageInput.value = messageText.trim();
         }
+
         function filterByTime() {
             const timeFilter = document.getElementById("time-filter").value.trim();
             const filteredMessages = messagesData.filter(item => {
