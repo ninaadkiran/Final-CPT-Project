@@ -3,6 +3,7 @@ permalink: /chat
 ---
 
 
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -156,14 +157,15 @@ permalink: /chat
             <button id="send" onclick="sendMessage()">Send</button>
             <button id="toggleModeButton" onclick="toggleMode()">Toggle Mode</button>
         </div>
-        </div>
-        <script>
+    </div>
+    <script>
         const chatBox = document.getElementById("chatroom-messages");
         const messageInput = document.getElementById("message");
         const backendUrl = "http://127.0.0.1:8089";
         let currentMessageId = null;
         let messagesData = [];
-        let sortAlphabetically = false;  // Add this line to track sort state
+        let sortAlphabetically = false;
+
         function toggleMode() {
             const body = document.body;
             const chatroom = document.querySelector('.chatroom');
@@ -200,6 +202,7 @@ permalink: /chat
                 toggleButton.textContent = 'Light Mode';
             }
         }
+
         function sendMessage() {
             const message = messageInput.value.trim();
             if (message !== '') {
@@ -227,6 +230,7 @@ permalink: /chat
                     });
             }
         }
+
         function displayChat() {
             fetch(`${backendUrl}/api/chat/read`, {
                     method: "GET",
@@ -237,10 +241,13 @@ permalink: /chat
                     applyFilter();  // Apply filter first
                     if (sortAlphabetically) {
                         sortMessagesAlphabetically();  // Apply sorting if needed
+                    } else {
+                        renderMessages(messagesData);  // Render messages without sorting
                     }
                 })
                 .catch(error => console.error("Failed to retrieve chat messages:", error));
         }
+
         function renderMessages(messages) {
             chatBox.innerHTML = "";
             messages.forEach(item => {
@@ -248,79 +255,77 @@ permalink: /chat
                 const formattedTimestamp = new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                 messageElement.textContent = `[${formattedTimestamp}] User ${item.user_id}: ${item.message}`;
                 messageElement.id = `message-${item.id}`;
-                messageElement.onclick = () => editMessage(item.id);
+                messageElement.onclick = () => editMessage(item.id, item.message);
                 chatBox.appendChild(messageElement);
             });
         }
-        function filterByExactLength() {
-            const lengthFilter = parseInt(document.getElementById("length-filter").value, 10);
-            const messages = document.querySelectorAll(".chatroom-messages div");
-            messages.forEach(message => {
-                const messageText = message.textContent.split(": ").pop().trim();
-                if (messageText.length === lengthFilter) {
-                    message.style.display = "block";
-                } else {
-                    message.style.display = "none";
-                }
-            });
-        }
-        function countMessagesByLength() {
-            const lengthFilter = parseInt(document.getElementById("length-filter").value, 10);
-            const messages = document.querySelectorAll(".chatroom-messages div");
-            let count = 0;
-            for (let i = 0; i < messages.length; i++) {
-                const messageText = messages[i].textContent.split(": ").pop().trim();
-                if (messageText.length === lengthFilter) {
-                    count++;
-                }
-            }
-            const countResult = document.getElementById("count-result");
-            countResult.textContent = `Messages with length ${lengthFilter}: ${count}`;
-        }
-        function editMessage(messageId) {
+
+        function editMessage(messageId, message) {
+            messageInput.value = message;
             currentMessageId = messageId;
-            const messageDiv = document.getElementById(`message-${messageId}`);
-            const messageTextWithUserId = messageDiv.textContent;
-            const userIdStartIndex = messageTextWithUserId.indexOf(']') + 2;
-            const userIdEndIndex = messageTextWithUserId.indexOf(':', userIdStartIndex);
-            const messageText = messageTextWithUserId.substring(userIdEndIndex + 1);
-            messageInput.value = messageText.trim();
         }
-        function filterByTime() {
-            const timeFilter = document.getElementById("time-filter").value.trim();
-            const filteredMessages = messagesData.filter(item => {
-                const messageTime = new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
-                return messageTime === timeFilter;
-            });
-            renderMessages(filteredMessages);
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
         }
+
         function applyFilter() {
-            const filterText = document.getElementById("filter-content").value.toLowerCase();
-            const filteredMessages = messagesData.filter(item => item.message.toLowerCase().includes(filterText));
+            const filterContent = document.getElementById("filter-content").value.toLowerCase();
+            const filteredMessages = messagesData.filter(item =>
+                item.message.toLowerCase().includes(filterContent)
+            );
             renderMessages(filteredMessages);
         }
+
+        function filterByExactLength() {
+            const lengthFilter = document.getElementById("length-filter").value;
+            const filteredMessages = messagesData.filter(item =>
+                item.message.length == lengthFilter
+            );
+            renderMessages(filteredMessages);
+        }
+
+        function filterByTime() {
+            const timeFilter = document.getElementById("time-filter").value.toLowerCase();
+            const filteredMessages = messagesData.filter(item =>
+                new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).toLowerCase().includes(timeFilter)
+            );
+            renderMessages(filteredMessages);
+        }
+
+        function sortMessagesAlphabetically() {
+            const sortedMessages = [...messagesData].sort((a, b) =>
+                a.message.localeCompare(b.message)
+            );
+            renderMessages(sortedMessages);
+        }
+
         function resetFilter() {
             document.getElementById("filter-content").value = '';
             document.getElementById("time-filter").value = '';
             document.getElementById("length-filter").value = '';
+            sortAlphabetically = false;  // Reset sort state to false
             displayChat();  // Fetches and displays all messages again
         }
+
         function sortByAlphabeticalOrder() {
-            sortAlphabetically = true;  // Set sort state to true
+            sortAlphabetically = true;
             sortMessagesAlphabetically();
         }
-        function sortMessagesAlphabetically() {
-            fetch(`${backendUrl}/api/chat/sort/alphabetical`)
-                .then(response => response.json())
-                .then(data => renderMessages(data))
-                .catch(error => console.error("Failed to sort alphabetically:", error));
+
+        function countMessagesByLength() {
+            const lengthFilter = document.getElementById("length-filter").value;
+            const count = messagesData.filter(item =>
+                item.message.length == lengthFilter
+            ).length;
+            document.getElementById("count-result").textContent = `Count: ${count}`;
         }
-        function handleKeyPress(event) {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                sendMessage();
-            }
-        }
-        setInterval(displayChat, 5000);
+
+        // Initial chat display
+        displayChat();
     </script>
 </body>
+
+</html>
