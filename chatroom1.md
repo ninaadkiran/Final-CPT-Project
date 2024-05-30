@@ -9,7 +9,7 @@ permalink: /chat
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatroom</title>
+    <title>Diary</title>
     <style>
         /* Basic CSS Created by me, embellished by ChatGPT */
         body {
@@ -27,7 +27,7 @@ permalink: /chat
             background-repeat: no-repeat;
         }
 
-        .chatroom {
+        .Diary {
             width: 600px;
             height: 600px;
             background-color: #232122;
@@ -37,7 +37,7 @@ permalink: /chat
             overflow: hidden;
         }
 
-        .chatroom-header {
+        .Diary-header {
             background-color: #C13A7F;
             color: #FFF;
             text-align: center;
@@ -45,7 +45,7 @@ permalink: /chat
             border-bottom: 1px solid #C13A7F;
         }
 
-        .chatroom-messages {
+        .Diary-messages {
             max-height: 410px;
             min-height: 305px;
             padding: 8px;
@@ -53,7 +53,7 @@ permalink: /chat
             background-color: #232122;
         }
 
-        .chatroom-messages div {
+        .Diary-messages div {
             background-color: #C13A7F;
             border-radius: 5px;
             margin: 5px 0;
@@ -62,7 +62,7 @@ permalink: /chat
             cursor: pointer;
         }
 
-        .chatroom-input,
+        .Diary-input,
         .filter-section {
             padding: 10px;
             display: flex;
@@ -102,16 +102,16 @@ permalink: /chat
         }
 
         /* Dark Mode */
-        .dark-mode .chatroom {
+        .dark-mode .Diary {
             background-color: #232122;
         }
 
-        .dark-mode .chatroom-header {
+        .dark-mode .Diary-header {
             background-color: #C13A7F;
             color: #232122;
         }
 
-        .dark-mode .chatroom-messages {
+        .dark-mode .Diary-messages {
             background-color: #232122;
         }
 
@@ -129,9 +129,9 @@ permalink: /chat
 </head>
 
 <body>
-    <div class="chatroom">
-        <div class="chatroom-header">
-            <h1>Chatroom</h1>
+    <div class="Diary">
+        <div class="Diary-header">
+            <h1>Diary</h1>
             <div class="filter-section">
                 <label for="filter-content">Filter by Content:</label>
                 <br>
@@ -148,16 +148,16 @@ permalink: /chat
                 <span id="count-result"></span>
             </div>
         </div>
-        <div class="chatroom-messages" id="chatroom-messages">
+        <div class="Diary-messages" id="Diary-messages">
         </div>
-        <div class="chatroom-input">
+        <div class="Diary-input">
             <input type="text" id="message" placeholder="Type your message here..." onkeypress="handleKeyPress(event)">
             <button id="send" onclick="sendMessage()">Send</button>
             <button id="toggleModeButton" onclick="toggleMode()">Toggle Mode</button>
         </div>
     </div>
     <script>
-        const chatBox = document.getElementById("chatroom-messages");
+        const chatBox = document.getElementById("Diary-messages");
         const messageInput = document.getElementById("message");
         const backendUrl = "http://tri3backend.stu.nighthawkcodingsociety.com/";
         let currentMessageId = null;
@@ -166,18 +166,18 @@ permalink: /chat
 
         function toggleMode() {
             const body = document.body;
-            const chatroom = document.querySelector('.chatroom');
-            const chatroomHeader = document.querySelector('.chatroom-header');
-            const chatroomMessages = document.querySelector('.chatroom-messages');
+            const Diary = document.querySelector('.Diary');
+            const DiaryHeader = document.querySelector('.Diary-header');
+            const DiaryMessages = document.querySelector('.Diary-messages');
             const input = document.querySelector('input[type="text"]');
             const button1 = document.getElementById('send');
             const toggleButton = document.getElementById('toggleModeButton');
             if (body.classList.contains('dark-mode')) {
                 body.classList.remove('dark-mode');
-                chatroom.style.backgroundColor = '#FFC8C5';
-                chatroomHeader.style.backgroundColor = '#C13A7F';
-                chatroomHeader.style.color = '#000';
-                chatroomMessages.style.backgroundColor = '#FFC8C5';
+                Diary.style.backgroundColor = '#FFC8C5';
+                DiaryHeader.style.backgroundColor = '#C13A7F';
+                DiaryHeader.style.color = '#000';
+                DiaryMessages.style.backgroundColor = '#FFC8C5';
                 input.style.backgroundColor = '#C13A7F';
                 input.style.color = '#000';
                 button1.style.backgroundColor = '#C13A7F';
@@ -187,10 +187,10 @@ permalink: /chat
                 toggleButton.textContent = 'Dark Mode';
             } else {
                 body.classList.add('dark-mode');
-                chatroom.style.backgroundColor = '#232122';
-                chatroomHeader.style.backgroundColor = '#C13A7F';
-                chatroomHeader.style.color = '#232122';
-                chatroomMessages.style.backgroundColor = '#232122';
+                Diary.style.backgroundColor = '#232122';
+                DiaryHeader.style.backgroundColor = '#C13A7F';
+                DiaryHeader.style.color = '#232122';
+                DiaryMessages.style.backgroundColor = '#232122';
                 input.style.backgroundColor = '#C13A7F';
                 input.style.color = '#232122';
                 button1.style.backgroundColor = '#C13A7F';
