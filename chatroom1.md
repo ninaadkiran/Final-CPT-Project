@@ -163,7 +163,6 @@ permalink: /chat
         let currentMessageId = null;
         let messagesData = [];
         let sortAlphabetically = false;
-
         function toggleMode() {
             const body = document.body;
             const Diary = document.querySelector('.Diary');
@@ -200,7 +199,6 @@ permalink: /chat
                 toggleButton.textContent = 'Light Mode';
             }
         }
-
         function sendMessage() {
             const message = messageInput.value.trim();
             if (message !== '') {
@@ -245,7 +243,6 @@ permalink: /chat
                 })
                 .catch(error => console.error("Failed to retrieve chat messages:", error));
         }
-
         function renderMessages(messages) {
             chatBox.innerHTML = "";
             messages.forEach(item => {
@@ -257,18 +254,15 @@ permalink: /chat
                 chatBox.appendChild(messageElement);
             });
         }
-
         function editMessage(messageId, message) {
             messageInput.value = message;
             currentMessageId = messageId;
         }
-
         function handleKeyPress(event) {
             if (event.key === 'Enter') {
                 sendMessage();
             }
         }
-
         function applyFilter() {
             const filterContent = document.getElementById("filter-content").value.toLowerCase();
             const filteredMessages = messagesData.filter(item =>
@@ -276,7 +270,6 @@ permalink: /chat
             );
             renderMessages(filteredMessages);
         }
-
         function filterByExactLength() {
             const lengthFilter = document.getElementById("length-filter").value;
             const filteredMessages = messagesData.filter(item =>
@@ -284,7 +277,6 @@ permalink: /chat
             );
             renderMessages(filteredMessages);
         }
-
         function filterByTime() {
             const timeFilter = document.getElementById("time-filter").value.toLowerCase();
             const filteredMessages = messagesData.filter(item =>
@@ -292,14 +284,12 @@ permalink: /chat
             );
             renderMessages(filteredMessages);
         }
-
         function sortMessagesAlphabetically() {
             const sortedMessages = [...messagesData].sort((a, b) =>
                 a.message.localeCompare(b.message)
             );
             renderMessages(sortedMessages);
         }
-
         function resetFilter() {
             document.getElementById("filter-content").value = '';
             document.getElementById("time-filter").value = '';
@@ -307,12 +297,10 @@ permalink: /chat
             sortAlphabetically = false;  // Reset sort state to false
             displayChat();  // Fetches and displays all messages again
         }
-
         function sortByAlphabeticalOrder() {
             sortAlphabetically = true;
             sortMessagesAlphabetically();
         }
-
         function countMessagesByLength() {
             const lengthFilter = document.getElementById("length-filter").value;
             const count = messagesData.filter(item =>
@@ -320,10 +308,7 @@ permalink: /chat
             ).length;
             document.getElementById("count-result").textContent = `Count: ${count}`;
         }
-
         // Initial chat display
         displayChat();
     </script>
 </body>
-
-</html>
