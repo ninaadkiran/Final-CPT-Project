@@ -39,14 +39,6 @@ body {
     background-color: #ff77ff;
     box-shadow: 0 0 25px rgba(255, 0, 255, 0.75);
 }
-.fancy-background {
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 20px;
-    border-radius: 10px;
-    margin: 0 auto 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    width: 80%;
-}
 .small-button {
     background-color: #8800ff;
     padding: 10px 20px;
@@ -68,14 +60,6 @@ body {
 <head>
     <title>Synthwave Style Main Page</title>
 </head>
-    <div class="fancy-background">
-        <header><b>Plans for the Integration</b></header>
-            - We integrated the video sharing platform and the login system into the shared repo
-            <br>
-            - Finally, we integrated the other CPT projects
-            <br>
-            - Then, the different machine learning systems were integrated into the repo. (Titanic, Diamond cost predictor, MPG predictor, likelihood of car crash predictor, and house price predictor)
-    </div>
         <button class="small-button" onClick="signOut()">Sign Out</button>
     </div>
     <script>
