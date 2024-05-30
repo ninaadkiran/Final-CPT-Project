@@ -26,7 +26,6 @@ permalink: /chat
             background-position: center;
             background-repeat: no-repeat;
         }
-
         .Diary {
             width: 600px;
             height: 600px;
@@ -36,7 +35,6 @@ permalink: /chat
             /* Vibrant pink glowing border */
             overflow: hidden;
         }
-
         .Diary-header {
             background-color: #C13A7F;
             color: #FFF;
@@ -44,7 +42,6 @@ permalink: /chat
             padding: 10px;
             border-bottom: 1px solid #C13A7F;
         }
-
         .Diary-messages {
             max-height: 410px;
             min-height: 305px;
@@ -52,7 +49,6 @@ permalink: /chat
             overflow-y: auto;
             background-color: #232122;
         }
-
         .Diary-messages div {
             background-color: #C13A7F;
             border-radius: 5px;
@@ -61,7 +57,6 @@ permalink: /chat
             word-wrap: break-word;
             cursor: pointer;
         }
-
         .Diary-input,
         .filter-section {
             padding: 10px;
@@ -70,7 +65,6 @@ permalink: /chat
             align-items: center;
             border-top: 1px solid #FFFFFF;
         }
-
         input[type="text"],
         .filter-section input[type="text"],
         .filter-section input[type="number"] {
@@ -81,7 +75,6 @@ permalink: /chat
             background-color: #C13A7F;
             color: #FFFFFF;
         }
-
         button,
         .filter-section button {
             background-color: #C13A7F;
@@ -94,33 +87,27 @@ permalink: /chat
             box-shadow: 0 0 10px rgba(255, 0, 153, 0.75);
             /* Bright pink glow */
         }
-
         button:hover,
         .filter-section button:hover {
             background-color: #FF66B2;
             /* Lighter neon pink */
         }
-
         /* Dark Mode */
         .dark-mode .Diary {
             background-color: #232122;
         }
-
         .dark-mode .Diary-header {
             background-color: #C13A7F;
             color: #232122;
         }
-
         .dark-mode .Diary-messages {
             background-color: #232122;
         }
-
         .dark-mode input[type="text"],
         .dark-mode input[type="number"] {
             background-color: #C13A7F;
             color: #232122;
         }
-
         .dark-mode button {
             background-color: #C13A7F;
             color: #232122;
@@ -263,17 +250,32 @@ permalink: /chat
             }
         }
         function applyFilter() {
+            // Retrieve the value from the input element with the id "filter-content" and convert it to lowercase.
             const filterContent = document.getElementById("filter-content").value.toLowerCase();
-            const filteredMessages = messagesData.filter(item =>
-                item.message.toLowerCase().includes(filterContent)
-            );
+            // Initialize an empty array to hold the filtered messages.
+            const filteredMessages = [];
+            // Loop through each message in the messagesData array.
+            for (let i = 0; i < messagesData.length; i++) {
+                // Get the current message from the messagesData array.
+                const message = messagesData[i];
+                // Convert the message text to lowercase and check if it includes the filterContent.
+                if (message.message.toLowerCase().includes(filterContent)) {
+                    // If the message includes the filterContent, add it to the filteredMessages array.
+                    filteredMessages.push(message);
+                }
+            }
+            // Call the renderMessages function to display the filtered messages.
             renderMessages(filteredMessages);
         }
         function filterByExactLength() {
             const lengthFilter = document.getElementById("length-filter").value;
-            const filteredMessages = messagesData.filter(item =>
-                item.message.length == lengthFilter
-            );
+            const filteredMessages = [];
+            for (let i = 0; i < messagesData.length; i++) {
+                const message = messagesData[i];
+                if (message.message.length == lengthFilter) {
+                    filteredMessages.push(message);
+                }
+            }
             renderMessages(filteredMessages);
         }
         function filterByTime() {
