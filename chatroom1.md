@@ -159,7 +159,7 @@ permalink: /chat
     <script>
         const chatBox = document.getElementById("chatroom-messages");
         const messageInput = document.getElementById("message");
-        const backendUrl = "http://127.0.0.1:8089";
+        const backendUrl = "http://tri3backend.stu.nighthawkcodingsociety.com/";
         let currentMessageId = null;
         let messagesData = [];
         let sortAlphabetically = false;
