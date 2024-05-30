@@ -278,10 +278,15 @@ permalink: /chat
         }
         function filterByTime() {
             const timeFilter = document.getElementById("time-filter").value.toLowerCase();
-            const filteredMessages = messagesData.filter(item =>
-                new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).toLowerCase().includes(timeFilter)
-            );
-            renderMessages(filteredMessages);
+            const filteredMessages = [];
+            for (let i = 0; i < messagesData.length; i++) {
+                const message = messagesData[i];
+            const messageTime = new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).toLowerCase();
+            if (messageTime.includes(timeFilter)) {
+                filteredMessages.push(message);
+                }
+            }
+        renderMessages(filteredMessages);
         }
         function sortMessagesAlphabetically() {
             const sortedMessages = [...messagesData].sort((a, b) =>
