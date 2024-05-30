@@ -2,7 +2,7 @@ title: Tri 3 Team Repository
 description: "My Project"
 owner_name: Ninaad Kiran
 github_username: ninaadkiran
-baseurl: "/finalcptproject"
+baseurl: "/Final-CPT-Project"
 remote_theme: pages-themes/midnight@v0.2.0
 # remote_theme: pages-themes/dinky@v0.2.0
 # remote_theme: pages-themes/minimal@v0.2.0
