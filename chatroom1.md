@@ -300,6 +300,12 @@ permalink: /chat
             sortAlphabetically = true;
             sortMessagesAlphabetically();
         }
+        function sortMessagesAlphabetically() {
+            fetch(`${backendUrl}/api/chat/sort/alphabetical`)
+                .then(response => response.json())
+                .then(data => renderMessages(data))
+                .catch(error => console.error("Failed to sort alphabetically:", error));
+        }
         function countMessagesByLength() {
             const lengthFilter = document.getElementById("length-filter").value;
             const count = messagesData.filter(item =>
