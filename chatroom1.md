@@ -159,7 +159,7 @@ permalink: /chat
     <script>
         const chatBox = document.getElementById("Diary-messages");
         const messageInput = document.getElementById("message");
-        const backendUrl = "http://tri3backend.stu.nighthawkcodingsociety.com/";
+        const backendUrl = "http://tri3backend.stu.nighthawkcodingsociety.com";
         let currentMessageId = null;
         let messagesData = [];
         let sortAlphabetically = false;
