@@ -226,7 +226,6 @@ permalink: /chat
                     });
             }
         }
-
         function displayChat() {
             fetch(`${backendUrl}/api/chat/read`, {
                     method: "GET",
